@@ -1,0 +1,18 @@
+.banner {
+    /* background-image: url(../images/maldive.jpg);
+    background-repeat: no-repeat;
+    background-size: cover; */
+    background-color: #3e5bda;
+}
+
+.blog {
+    padding-top: 115px;
+}
+
+.author {
+    height: 60px;
+}
+
+.author-revamped {
+    height: 60px;
+}
