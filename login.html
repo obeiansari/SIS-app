@@ -47,8 +47,93 @@
         </div>
     </div>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <script src="/js/login.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        $(function() {
+            const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
+            if (user) {
+                location.href = `${CONSTANTS.APP_URL}dashboard.html`;
+            } else {
+                //    $('body').removeClass('d-none');
+                // location.href = `${CONSTANTS.APP_URL}login.html`;
+
+            }
+        });
+        const myform = document.querySelector('#myform');
+        const username = document.querySelector('#username');
+        const password = document.querySelector('#password');
+
+        myform.addEventListener('submit', onSubmit);
+        username.addEventListener('keyup', validateUserName);
+        password.addEventListener('keyup', validatePassword);
+
+        function validateUserName() {
+            if (username.value === '') {
+                username.classList.add('is-invalid');
+                username.classList.remove('is-valid');
+                username.nextElementSibling.textContent = 'This field is required'
+                return false;
+            }
+            username.classList.add('is-valid');
+            username.classList.remove('is-invalid');
+            username.nextElementSibling.textContent = '';
+            return true;
+        }
+
+        function validatePassword() {
+            if (password.value === '') {
+                password.classList.add('is-invalid');
+                password.classList.remove('is-valid');
+                password.nextElementSibling.textContent = 'This field is required';
+                return false;
+            } else {
+                password.classList.add('is-valid');
+                password.classList.remove('is-invalid');
+                password.nextElementSibling.textContent = '';
+                return true;
+            }
+        }
+
+        function isValid() {
+            const isUserName = validateUserName();
+            const isPassword = validatePassword();
+            return isUserName && isPassword;
+        }
+
+        function onSubmit(e) {
+            e.preventDefault();
+            if (!isValid()) {
+                return;
+            } else {
+                const data = {
+                    username: username.value,
+                    password: password.value,
+                };
+                // console.log(data);
+                $.ajax({
+                    type: 'POST',
+                    url: `${CONSTANTS.API_URL}account/login`,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: (response) => {
+                        // console.log(response);
+                        localStorage.setItem(CONSTANTS.LOCAL_STORAGE_KEY, JSON.stringify(response));
+                        location.href = `${CONSTANTS.APP_URL}dashboard.html`;
+                    },
+                    error: (error) => {
+                        if (error.status === 401) {
+                            alert('Invalid credentials');
+                        } else {
+                            alert('Something went wrong');
+                        }
+                    }
+                });
+            }
+
+        }
+    </script>
 </body>
 
 </html>
