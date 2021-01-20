@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body class="banner">
+<body class="banner d-none">
     <div class="container">
         <div class="row blog">
             <div class="col-md-4 offset-md-4">
@@ -55,9 +55,17 @@
             if (user) {
                 location.href = `${CONSTANTS.APP_URL}dashboard.html`;
             } else {
-                //    $('body').removeClass('d-none');
-                // location.href = `${CONSTANTS.APP_URL}login.html`;
-
+                $('body').removeClass('d-none');
+            }
+        });
+    </script>
+    <script>
+        $(function() {
+            const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
+            if (user) {
+                location.href = `${CONSTANTS.APP_URL}dashboard.html`;
+            } else {
+                $('body').removeClass('d-none');
             }
         });
         const myform = document.querySelector('#myform');

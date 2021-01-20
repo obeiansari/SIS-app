@@ -5,11 +5,11 @@ const CONSTANTS = {
 }
 
 function isAuthorized() {
-    const user = JSON.parse(localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY));
+    const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
     if (!user) {
         location.href = `${CONSTANTS.APP_URL}login.html`;
     } else {
-        // $('#lblUserName').text(user.payload.username);
+        $('#lblUserName').text(user.payload.username);
         $.ajax({
             type: 'POST',
             url: `${CONSTANTS.API_URL}account/authorized`,
@@ -19,7 +19,7 @@ function isAuthorized() {
             },
             success: () => {
                 // location.href = `${CONSTANTS.APP_URL}dashboard.html`;
-                // $('body').removeClass('d-none');
+                $('body').removeClass('d-none');
             },
             error: (error) => {
                 if (error.status === 401) {
@@ -39,6 +39,6 @@ function logout() {
 }
 
 function getToken() {
-    const user = JSON.parse(localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY));
+    const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
     return user ? user.token : '';
 }
