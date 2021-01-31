@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>View | MySQL App</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col">
+                <h1>Posts Details</h1>
+                <hr>
+                <div class="mb-2"><b>Title:</b> <span id="title"></span></div>
+                <div class="mb-4"><b>Body:</b> <span id="body"></span></div>
+                <a href="http://127.0.0.2:5501/post.html" class="btn btn-light btn-sm">Back</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        // $(function() {
+        //     isAuthorized();
+        // });
+        $(function() {
+
+            // const query = getQuery();
+            // const id = query.id;
+
+            const urlParams = new URLSearchParams(location.search);
+            const id = urlParams.get('id');
+
+            $.ajax({
+                type: 'GET',
+                url: `http://localhost:3000/api/posts/get/${id}`,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (response) => {
+                    $('#title').text(response.title);
+                    $('#body').text(response.body);
+                },
+                error: (error) => {
+                    console.log('error', error);
+                }
+            })
+        })
+
+        // function getQuery() {
+        //     const query = {};
+        //     const searchParams = location.search.replace('?', '').split('&');
+        //     searchParams.forEach(item => {
+        //         const splitItem = item.split('=');
+        //         query[splitItem[0]] = splitItem[1];
+        //     })
+        //     return query;
+        // }
+    </script>
+</body>
+
+</html>

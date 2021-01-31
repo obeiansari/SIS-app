@@ -9,6 +9,7 @@
   "author": "obei",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.2",
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1"
   }

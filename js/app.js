@@ -38,6 +38,6 @@ function logout() {
 }
 
 function getToken() {
-    const user = localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY);
+    const user = JSON.parse(localStorage.getItem(CONSTANTS.LOCAL_STORAGE_KEY));
     return user ? user.token : '';
 }

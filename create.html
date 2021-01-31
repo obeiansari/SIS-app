@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Create | MySQL App</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col">
+                <h1>Post Create</h1>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                    <label for="body">Body</label>
+                    <textarea class="form-control" name="body" id="body" rows="5" placeholder="Enter Body"></textarea>
+                </div>
+                <button id="submit" type="button" class="btn btn-primary" onclick="onSubmit()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        // $(function() {
+        //     isAuthorized();
+        // });
+
+        function onSubmit() {
+            const title = $('#title').val();
+            const body = $('#body').val();
+
+            if (!title || !body) {
+                alert('Please complete the form');
+                return;
+            }
+
+            const data = {
+                title: title,
+                body: body
+            }
+
+            console.log('onSubmit');
+
+            $.ajax({
+                type: 'POST',
+                url: `http://localhost:3000/api/posts/create`,
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: (response) => {
+                    console.log('success', response);
+                    location.href = 'http://127.0.0.2:5501/post.html';
+                },
+                error: (error) => {
+                    console.log('error', error);
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

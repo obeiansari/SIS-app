@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>List | MySQL App</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col">
+                <a href="/create.html" class="btn btn-primary btn-sm float-sm-right">
+                    <i class="fas fa-plus"></i> Add
+                </a>
+                <h1>Posts</h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 3%;">#</th>
+                            <th style="width: 15%;">Title</th>
+                            <th style="width: 65%;">Body</th>
+                            <th style="width: 17%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- loaded server -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        // $(function() {
+        //     isAuthorized();
+        // });
+        $(function() {
+            $.ajax({
+                type: 'GET',
+                url: `http://localhost:3000/api/posts/getAll`,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (response) => {
+                    let posts = '';
+                    response.forEach(post => {
+                        posts += `
+                            <tr>
+                                <td>${post.id}</td>
+                                <td>${post.title}</td>
+                                <td>${post.body}</td>
+                                <td class="text-center">
+                                    <a href="http://127.0.0.2:5501/view.html?id=${post.id}" class="btn btn-info btn-sm">View</a>
+                                    <a href="http://127.0.0.2:5501/edit.html?id=${post.id}" class="btn-sm btn btn-warning">Edit</a>
+                                    <a href= "http://127.0.0.2:5501/post.html" id=${post.id} type="submit" class="delete-btn btn-sm btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    $('table tbody').append(posts);
+                },
+                error: (error) => {
+                    console.log('error', error);
+                }
+            });
+            $('table').on('click', '.delete-btn', function() {
+                let row = $(this).closest('tr');
+                let id = row.find('.delete-btn').attr('id');
+                // console.log('test');
+                console.log(id);
+                $.ajax({
+                    type: 'DELETE',
+                    url: `http://localhost:3000/api/posts/delete/${id}`,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: (response) => {
+                        // console.log("deleted");
+                        // console.log(response);
+                        // response.remove();
+                        // location.href = "http://127.0.0.2:50/index.html"
+                    },
+                    error: (error) => {
+                        console.log('error', error);
+                    }
+                });
+            })
+        });
+    </script>
+</body>
+
+</html>
