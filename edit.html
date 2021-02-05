@@ -1,75 +1,125 @@
-<<!doctype html>
-    <html lang="en">
+<!doctype html>
+<html lang="en">
 
-    <head>
-        <title>Edit | MySQL App</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <title>Edit | MySQL App</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-    </head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
 
-    <body>
-        <div class="container my-5">
-            <div class="row">
-                <div class="col">
-                    <h1>Post Edit</h1>
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" aria-describedby="helpId">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-dark">
+        <a class="navbar-brand" href="#"><span style="color: white;">{SIS}</span></a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="post.html" style="color: white;">Post<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">Welcome<span id="lblUserName"></span></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item " href="# " onclick="logout() ">Logout</a>
                     </div>
-                    <div class="form-group">
-                        <label for="body">Body</label>
-                        <textarea class="form-control" name="body" id="body" rows="5" placeholder="Enter Body"></textarea>
-                    </div>
-                    <button id="submit" type="button" class="btn btn-primary" onclick="onSubmit()">Submit</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col">
+                <h1>Post Edit</h1>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" aria-describedby="helpId">
                 </div>
+                <div class="form-group">
+                    <label for="body">Body</label>
+                    <textarea class="form-control" name="body" id="body" rows="5" placeholder="Enter Body"></textarea>
+                </div>
+                <button id="submit" type="button" class="btn btn-primary" onclick="onSubmit()">Submit</button>
             </div>
         </div>
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="/js/app.js"></script>
-        <script>
-            // $(function() {
-            //     isAuthorized();
-            // });
+    </div>
+    <!--footer starts-->
+    <div class="container-fluid p-4 bg-dark footer">
+        <div class="row ">
+            <div class="col text-center">
+                Copy Right &copy; Sakshi infotech solution 2021
+            </div>
 
-            function onSubmit() {
-                const title = $('#title').val();
-                const body = $('#body').val();
+        </div>
+    </div>
+    <!-- /.container -->
+    <!--footer ends-->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/app.js"></script>
+    <script>
+        // $(function() {
+        //     isAuthorized();
+        // });
+        $(function() {
+            const urlParams = new URLSearchParams(location.search);
+            const id = urlParams.get('id');
+            $.ajax({
+                type: 'GET',
+                url: `${CONSTANTS.API_URL}posts/edit/get/${id}`,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: (response) => {
+                    $('#title').val(response.title);
+                    $('#body').val(response.body);
+                },
+                error: (error) => {
+                    console.log(error);
+                },
+            })
+        })
 
-                if (!title || !body) {
-                    alert('Please fill the form');
-                    return;
-                }
-                const data = {
-                    title,
-                    body
-                }
-                console.log(data);
-                $(function() {
-                    const urlParams = new URLSearchParams(location.search);
-                    const id = urlParams.get('id');
-                    $.ajax({
-                        type: 'PUT',
-                        url: `http://localhost:3000/api/posts/edit/${id}`,
-                        dataType: 'json',
-                        contentType: 'application/json',
-                        data: JSON.stringify(data),
-                        success: (response) => {
-                            location.href = 'http://127.0.0.2:5501/post.html';
-                        },
-                        error: (error) => {
-                            console.log(error);
-                        }
-                    })
-                })
+        function onSubmit() {
+            const title = $('#title').val();
+            const body = $('#body').val();
+
+            if (!title || !body) {
+                alert('Please fill the form');
+                return;
             }
-        </script>
-    </body>
+            const data = {
+                title,
+                body
+            }
+            console.log(data);
+            $(function() {
+                const urlParams = new URLSearchParams(location.search);
+                const id = urlParams.get('id');
+                $.ajax({
+                    type: 'PUT',
+                    url: `${CONSTANTS.API_URL}posts/edit/${id}`,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: (response) => {
+                        location.href = `${CONSTANTS.APP_URL}post.html`;
+                    },
+                    error: (error) => {
+                        console.log(error);
+                    }
+                })
+            })
+        }
+    </script>
+</body>
 
-    </html>
+</html>

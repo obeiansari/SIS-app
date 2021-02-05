@@ -29,6 +29,8 @@
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" placeholder="Enter password">
                                     <div class="invalid-feedback"></div>
+                                    <div id="lbl" style="color: red"></div>
+
                                 </div>
                                 <div>
                                     <button type="submit" class="btn btn-primary btn-block" id="submit">Login</button>
@@ -122,9 +124,12 @@
                     },
                     error: (error) => {
                         if (error.status === 401) {
-                            alert('Invalid credentials');
+                            // alert('Invalid credentials');
+                            $('#lbl').text('Invalid credentials')
                         } else {
-                            alert('Something went wrong');
+                            // alert('Something went wrong');
+                            $('#lbl').text('Something went wrong');
+
                         }
                     }
                 });

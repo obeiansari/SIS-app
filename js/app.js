@@ -22,6 +22,7 @@ function isAuthorized() {
             },
             error: (error) => {
                 if (error.status === 401) {
+                    logout();
                     location.href = `${CONSTANTS.APP_URL}login.html`;
                 } else {
                     alert('Something when wrong');

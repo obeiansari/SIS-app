@@ -23,6 +23,7 @@
                                 <div class="form-group">
                                     <label for="username">Email</label>
                                     <input type="Email" class="form-control" name="username" id="username" placeholder="Enter email">
+                                    <div id="lbl" style="color: red"></div>
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="form-group">
@@ -115,6 +116,13 @@
                 confirmpassword.nextElementSibling.textContent = 'Please enter same password as above';
                 return false;
             }
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password.value)) {
+                password.classList.add('is-invalid');
+                password.classList.remove('is-valid');
+                password.nextElementSibling.textContent = 'Password should be Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character';
+                return false;
+            }
 
             password.classList.add('is-valid');
             password.classList.remove('is-invalid');
@@ -171,9 +179,10 @@
                     },
                     error: (error) => {
                         if (error.status === 409) {
-                            alert(error.responseJSON.message);
+                            // alert(error.responseJSON.message);
+                            $('#lbl').text(error.responseJSON.message);
                         } else {
-                            alert('Something went wrong');
+                            $('#lbl').text('Something went wrong');
                         }
                     }
                 })

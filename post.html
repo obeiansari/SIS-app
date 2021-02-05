@@ -10,10 +10,30 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
-
+    <nav class="navbar navbar-expand-sm navbar-light bg-dark">
+        <a class="navbar-brand" href="#"><span style="color: white;">{SIS}</span></a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.html" style="color: white;">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">Welcome<span id="lblUserName"></span></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item " href="# " onclick="logout() ">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="container my-5">
         <div class="row">
             <div class="col">
@@ -37,19 +57,29 @@
             </div>
         </div>
     </div>
+    <!--footer starts-->
+    </div>
+    <!--footer starts-->
+    <div class="container-fluid p-4 bg-dark footer">
+        <div class="row ">
+            <div class="col text-center">
+                Copy Right &copy; Sakshi infotech solution 2021
+            </div>
+
+        </div>
+    </div>
+    <!-- /.container -->
+    <!--footer ends-->
 
     <!-- JavaScript -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/app.js"></script>
     <script>
-        // $(function() {
-        //     isAuthorized();
-        // });
         $(function() {
             $.ajax({
                 type: 'GET',
-                url: `http://localhost:3000/api/posts/getAll`,
+                url: `${CONSTANTS.API_URL}posts/getAll`,
                 dataType: 'json',
                 contentType: 'application/json',
                 success: (response) => {
@@ -61,9 +91,9 @@
                                 <td>${post.title}</td>
                                 <td>${post.body}</td>
                                 <td class="text-center">
-                                    <a href="http://127.0.0.2:5501/view.html?id=${post.id}" class="btn btn-info btn-sm">View</a>
-                                    <a href="http://127.0.0.2:5501/edit.html?id=${post.id}" class="btn-sm btn btn-warning">Edit</a>
-                                    <a href= "http://127.0.0.2:5501/post.html" id=${post.id} type="submit" class="delete-btn btn-sm btn btn-danger">Delete</a>
+                                    <a href="${CONSTANTS.APP_URL}view.html?id=${post.id}" class="btn btn-info btn-sm">View</a>
+                                    <a href="${CONSTANTS.APP_URL}edit.html?id=${post.id}" class="btn-sm btn btn-warning">Edit</a>
+                                    <a href= "${CONSTANTS.APP_URL}post.html" id=${post.id} type="submit" class="delete-btn btn-sm btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         `;
@@ -81,7 +111,7 @@
                 console.log(id);
                 $.ajax({
                     type: 'DELETE',
-                    url: `http://localhost:3000/api/posts/delete/${id}`,
+                    url: `${CONSTANTS.API_URL}posts/delete/${id}`,
                     dataType: 'json',
                     contentType: 'application/json',
                     success: (response) => {
@@ -96,7 +126,11 @@
                 });
             })
         });
+        // $(function() {
+        //     isAuthorized();
+        // });
     </script>
+
 </body>
 
 </html>
